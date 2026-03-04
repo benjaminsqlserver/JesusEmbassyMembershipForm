@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RCCG Parish — Member Biodata Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --gold-dark: #a07830;
+            --deep: #0a1628;
+            --deep2: #122040;
+            --mid: #1e3460;
+            --surface: #162850;
+            --text: #f0e8d8;
+            --muted: #a8b8d0;
+            --error: #e87070;
+            --success: #5ec47e;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 90%, rgba(30,52,96,0.6) 0%, transparent 50%);
+        }
+
+        /* ── Header ── */
+        .header {
+            text-align: center;
+            padding: 48px 24px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .header::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 100%);
+                pointer-events: none;
+            }
+
+        .rccg-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 14px;
+            filter: drop-shadow(0 0 14px rgba(201,168,76,0.4));
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                filter: drop-shadow(0 0 8px rgba(201,168,76,0.4));
+            }
+
+            to {
+                filter: drop-shadow(0 0 20px rgba(201,168,76,0.8));
+            }
+        }
+
+        .parish-name {
+            display: block;
+            font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+            font-weight: 400;
+            color: var(--gold-light);
+            letter-spacing: 0.06em;
+            margin-top: 4px;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+            line-height: 1.25;
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 8px;
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 16px auto 0;
+        }
+
+        /* ── Card ── */
+        .card {
+            max-width: 680px;
+            margin: 0 auto 48px;
+            padding: 0 16px;
+        }
+
+        .section-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            object-fit: contain;
+            margin: 32px 0 16px;
+            padding-left: 12px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+            .form-grid .full {
+                grid-column: 1 / -1;
+            }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+            label .req {
+                color: var(--gold);
+                margin-left: 3px;
+            }
+
+        input, select, textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1.5px solid rgba(201,168,76,0.25);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: var(--gold);
+                background: var(--mid);
+                box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+            }
+
+            input::placeholder, textarea::placeholder {
+                color: rgba(168,184,208,0.5);
+            }
+
+        /* Custom select arrow */
+        .select-wrap {
+            position: relative;
+        }
+
+            .select-wrap::after {
+                content: '▾';
+                position: absolute;
+                right: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                object-fit: contain;
+                pointer-events: none;
+                font-size: 1rem;
+            }
+
+        select {
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+            select option {
+                background: var(--deep2);
+                color: var(--text);
+            }
+
+        /* Gender radio */
+        .radio-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 90px;
+        }
+
+            .radio-option input[type="radio"] {
+                display: none;
+            }
+
+            .radio-option label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 11px 14px;
+                background: var(--surface);
+                border: 1.5px solid rgba(201,168,76,0.25);
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 0.88rem;
+                text-transform: none;
+                letter-spacing: 0;
+                font-weight: 400;
+                transition: all 0.2s;
+            }
+
+            .radio-option input[type="radio"]:checked + label {
+                background: rgba(201,168,76,0.18);
+                border-color: var(--gold);
+                color: var(--gold-light);
+                font-weight: 700;
+            }
+
+            .radio-option label:hover {
+                border-color: rgba(201,168,76,0.5);
+                background: var(--mid);
+            }
+
+        /* Department checkboxes */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .dept-option input[type="checkbox"] {
+            display: none;
+        }
+
+        .dept-option label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: var(--surface);
+            border: 1.5px solid rgba(201,168,76,0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 400;
+            transition: all 0.2s;
+        }
+
+            .dept-option label::before {
+                content: '';
+                width: 16px;
+                height: 16px;
+                border: 2px solid rgba(201,168,76,0.4);
+                border-radius: 4px;
+                flex-shrink: 0;
+                transition: all 0.2s;
+            }
+
+        .dept-option input[type="checkbox"]:checked + label {
+            background: rgba(201,168,76,0.18);
+            border-color: var(--gold);
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+            .dept-option input[type="checkbox"]:checked + label::before {
+                background: var(--gold);
+                border-color: var(--gold);
+                content: '✓';
+                color: var(--deep);
+                font-size: 0.7rem;
+                font-weight: 900;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        /* Submit */
+        .submit-wrap {
+            margin-top: 36px;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--deep);
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+            width: 100%;
+            max-width: 320px;
+        }
+
+            .btn-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+            .btn-submit:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        /* Success / Error messages */
+        .toast {
+            display: none;
+            margin: 16px auto 0;
+            max-width: 480px;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast.success {
+            background: rgba(94,196,126,0.15);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+
+        .toast.error {
+            background: rgba(232,112,112,0.15);
+            border: 1px solid var(--error);
+            color: var(--error);
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--muted);
+            padding: 24px 16px 40px;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+                .form-grid .full {
+                    grid-column: 1;
+                }
+
+            .btn-submit {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="https://www.rccg.org/wp-content/uploads/2020/11/rccg-for-web.png" alt="RCCG Logo" class="rccg-logo" />
+        <h1>The Redeemed Christian Church Of God<br /><span class="parish-name">Jesus Embassy, Lagos Province 36</span></h1>
+        <p class="subtitle">Member Biodata Form &mdash; Please fill all required fields</p>
+        <div class="divider"></div>
+    </div>
+
+    <div class="card">
+        <form id="biodataForm" novalidate>
+
+            <!-- Personal Information -->
+            <p class="section-label">Personal Information</p>
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="firstName">First Name <span class="req">*</span></label>
+                    <input type="text" id="firstName" name="firstName" placeholder="e.g. Emmanuel" required />
+                </div>
+
+                <div class="field">
+                    <label for="surname">Surname <span class="req">*</span></label>
+                    <input type="text" id="surname" name="surname" placeholder="e.g. Adeyemi" required />
+                </div>
+
+                <div class="field full">
+                    <label for="otherNames">Other Names</label>
+                    <input type="text" id="otherNames" name="otherNames" placeholder="Middle name(s) if any" />
+                </div>
+
+                <div class="field">
+                    <label for="dob">Date of Birth <span class="req">*</span><br /><small style="color:var(--muted);font-weight:300;text-transform:none;letter-spacing:0">(Day &amp; Month only)</small></label>
+                    <input type="text" id="dob" name="dob" placeholder="DD / MM  e.g. 15/03" pattern="^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[0-2])$" required />
+                </div>
+
+                <div class="field">
+                    <label>Gender <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="male" name="gender" value="Male" required />
+                            <label for="male">♂ Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="female" name="gender" value="Female" />
+                            <label for="female">♀ Female</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Contact Information -->
+            <p class="section-label">Contact Information</p>
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="whatsapp">WhatsApp Number <span class="req">*</span></label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="+234 XXX XXX XXXX" required />
+                </div>
+
+                <div class="field">
+                    <label for="phone2">Phone Number 2</label>
+                    <input type="tel" id="phone2" name="phone2" placeholder="+234 XXX XXX XXXX" />
+                </div>
+
+                <div class="field full">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" />
+                </div>
+
+            </div>
+
+            <!-- Address -->
+            <p class="section-label">Address Details</p>
+            <div class="form-grid">
+
+                <div class="field full">
+                    <label for="residentialAddress">Residential Address <span class="req">*</span></label>
+                    <input type="text" id="residentialAddress" name="residentialAddress" placeholder="House No., Street, Area" required />
+                </div>
+
+                <div class="field full">
+                    <label for="busstop">Nearest Bus Stop to Residence <span class="req">*</span></label>
+                    <input type="text" id="busstop" name="busstop" placeholder="e.g. Iyana Ipaja Bus Stop" required />
+                </div>
+
+                <div class="field full">
+                    <label for="officeAddress">Office / Work Address</label>
+                    <input type="text" id="officeAddress" name="officeAddress" placeholder="Office / Business address (optional)" />
+                </div>
+
+            </div>
+
+            <!-- Department -->
+            <p class="section-label">Church Department</p>
+            <div class="dept-grid">
+                <div class="dept-option">
+                    <input type="checkbox" id="deptChoir" name="department" value="Choir" />
+                    <label for="deptChoir">🎵 Choir</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptUshering" name="department" value="Ushering" />
+                    <label for="deptUshering">🤝 Ushering</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptSundaySchool" name="department" value="Sunday School" />
+                    <label for="deptSundaySchool">📖 Sunday School</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptHolyPolice" name="department" value="Holy Police" />
+                    <label for="deptHolyPolice">🛡️ Holy Police</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptChildren" name="department" value="Children" />
+                    <label for="deptChildren">👧 Children</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptSanitation" name="department" value="Sanitation" />
+                    <label for="deptSanitation">🧹 Sanitation</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptPrayer" name="department" value="Prayer Champions" />
+                    <label for="deptPrayer">🙏 Prayer Champions</label>
+                </div>
+                <div class="dept-option">
+                    <input type="checkbox" id="deptNone" name="department" value="None" />
+                    <label for="deptNone">— None</label>
+                </div>
+            </div>
+
+
+            <!-- Spiritual Development -->
+            <p class="section-label">Spiritual Development</p>
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Have You Done Baptismal Class? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="baptismalYes" name="baptismalClass" value="Yes" required />
+                            <label for="baptismalYes">✅ Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="baptismalNo" name="baptismalClass" value="No" />
+                            <label for="baptismalNo">❌ No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Have You Done Workers In Training (WIT)? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="witYes" name="workersInTraining" value="Yes" required />
+                            <label for="witYes">✅ Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="witNo" name="workersInTraining" value="No" />
+                            <label for="witNo">❌ No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Have You Done School Of Disciples (SOD)? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="sodYes" name="sod" value="Yes" required />
+                            <label for="sodYes">✅ Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="sodNo" name="sod" value="No" />
+                            <label for="sodNo">❌ No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Have You Attended Bible College (RCBC)? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="rcbcYes" name="rcbc" value="Yes" required />
+                            <label for="rcbcYes">✅ Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="rcbcNo" name="rcbc" value="No" />
+                            <label for="rcbcNo">❌ No</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="submit-wrap">
+                <button type="submit" class="btn-submit" id="submitBtn">Submit Biodata</button>
+                <div id="toast" class="toast"></div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="footer">
+        The Redeemed Christian Church Of God, Jesus Embassy, LP 36 &mdash; Parish Data Collection &bull; All information is kept confidential.
+    </div>
+
+    <script>
+        /* ── "None" deselects others & vice versa ── */
+        const deptCheckboxes = document.querySelectorAll('input[name="department"]');
+        const noneBox = document.getElementById('deptNone');
+
+        deptCheckboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                if (cb === noneBox && noneBox.checked) {
+                    deptCheckboxes.forEach(d => { if (d !== noneBox) d.checked = false; });
+                } else if (cb !== noneBox && cb.checked) {
+                    noneBox.checked = false;
+                }
+            });
+        });
+
+        /* ── Form Submission ── */
+        const form = document.getElementById('biodataForm');
+        const toast = document.getElementById('toast');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            toast.className = 'toast';
+            toast.textContent = '';
+
+            /* Basic validation */
+            const required = form.querySelectorAll('[required]');
+            let valid = true;
+            required.forEach(f => {
+                f.style.borderColor = '';
+                if (f.type === 'radio') return; // handled below
+                if (!f.value.trim()) { f.style.borderColor = 'var(--error)'; valid = false; }
+            });
+
+            /* Gender check */
+            const genderVal = form.querySelector('input[name="gender"]:checked');
+            if (!genderVal) {
+                valid = false;
+                document.querySelectorAll('#male + label, #female + label').forEach(l => l.style.borderColor = 'var(--error)');
+            }
+
+            /* Spiritual development radio checks */
+            const spiritualFields = ['baptismalClass', 'workersInTraining', 'sod', 'rcbc'];
+            spiritualFields.forEach(name => {
+                const checked = form.querySelector(`input[name="${name}"]:checked`);
+                if (!checked) {
+                    valid = false;
+                    form.querySelectorAll(`input[name="${name}"] + label`).forEach(l => l.style.borderColor = 'var(--error)');
+                }
+            });
+
+            if (!valid) {
+                showToast('Please fill in all required fields highlighted in red.', 'error');
+                return;
+            }
+
+            /* Collect data */
+            const departments = [...document.querySelectorAll('input[name="department"]:checked')].map(c => c.value);
+            const data = {
+                firstName: document.getElementById('firstName').value.trim(),
+                surname: document.getElementById('surname').value.trim(),
+                otherNames: document.getElementById('otherNames').value.trim(),
+                dateOfBirth: document.getElementById('dob').value.trim(),
+                gender: genderVal.value,
+                whatsapp: document.getElementById('whatsapp').value.trim(),
+                phone2: document.getElementById('phone2').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                residentialAddress: document.getElementById('residentialAddress').value.trim(),
+                nearestBusStop: document.getElementById('busstop').value.trim(),
+                officeAddress: document.getElementById('officeAddress').value.trim(),
+                department: departments.join(', ') || 'None',
+                baptismalClass: form.querySelector('input[name="baptismalClass"]:checked')?.value || '',
+                workersInTraining: form.querySelector('input[name="workersInTraining"]:checked')?.value || '',
+                sod: form.querySelector('input[name="sod"]:checked')?.value || '',
+                rcbc: form.querySelector('input[name="rcbc"]:checked')?.value || '',
+                submittedAt: new Date().toLocaleString('en-NG', { timeZone: 'Africa/Lagos' })
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting…';
+
+            try {
+                /*
+                 * ────────────────────────────────────────────────────────────────
+                 * REPLACE the URL below with your Google Apps Script Web App URL
+                 * or your own API endpoint. See instructions in the README.
+                 * ────────────────────────────────────────────────────────────────
+                 */
+                const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyqum4NToX3X4PV8u7pDZYFI4bBPZHiBGbZFHujUbVCvtaus-HCOOr9IjYYd3bIcKKW/exec';
+
+                if (ENDPOINT === 'DEMO_MODE_PLACEHOLDER') {
+                    /* Demo mode — just log to console */
+                    console.table(data);
+                    await new Promise(r => setTimeout(r, 800));
+                    showToast('✅  Demo mode: Data logged to console. Connect a backend to save responses.', 'success');
+                    form.reset();
+                } else {
+                    const res = await fetch(ENDPOINT, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    showToast('✅  Thank you! Your biodata has been submitted successfully. God bless you! 🙏', 'success');
+                    form.reset();
+                }
+            } catch (err) {
+                showToast('❌  Submission failed. Please check your connection and try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Biodata';
+            }
+        });
+
+        function showToast(msg, type) {
+            toast.textContent = msg;
+            toast.className = 'toast ' + type;
+            toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
